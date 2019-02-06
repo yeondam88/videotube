@@ -4,6 +4,7 @@ class VideoProcessor
     private $connection;
     private $sizeLimit = 500000000;
     private $allowedTypes = array('mp4', 'flv', 'webm', 'mkv', 'vob', 'ogv', 'ogg', 'avi', 'wmv', 'mov', 'mpeg', 'mpg');
+    private $ffmpegPath = "ffmpeg/bin/ffmpeg";
 
     public function __construct($connection)
     {
@@ -33,6 +34,11 @@ class VideoProcessor
 
             if (!$this->insertVideoData($videoUploadData, $finalFilePath)) {
                 echo 'Insert query failed.';
+                return false;
+            }
+
+            if (!$this->convertVideoMp4($tempFilePath, $finalFilePath)) {
+                echo 'Upload Failed.';
                 return false;
             }
         }
@@ -87,5 +93,22 @@ class VideoProcessor
         $query->bindParam(":filePath", $filePath);
 
         return $query->execute();
+    }
+
+    public function convertVideoMp4($tempFilePath, $finalFilePath)
+    {
+        $cmd = "$this->$ffmpegPath -i $tempFilePath $finalFilePath 2>&1";
+
+        $outputLog = array();
+        exec($cmd, $outputLog, $returnCode);
+
+        if ($returnCode != 0) {
+            // Command Failed
+            foreach ($outputLog as $line) {
+                echo $line . '<br>';
+            }
+        }
+
+        return true;
     }
 }
