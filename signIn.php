@@ -25,16 +25,17 @@
     <div class="column">
       <div class="header">
         <img src="assets/images/icons/VideoTubeLogo.png" alt="VideoTube Logo" title="VideoTube">
-        <h3>Sign Up</h3>
+        <h3>Sign In</h3>
         <span>to continue to VideoTube</span>
       </div>
       <div class="loginForm">
         <form action="signUp.php">
-
-
+          <input type="text" name="username" placeholder="Username" required autocomplete="off">
+          <input type="password" name="password" placeholder="Password" required autocomplete="off">
+          <input type="submit" name="submitButton" value="SUBMIT">
         </form>
       </div>
-      <a href="signIn.php" class="signInMessage">Already have an account? Sign in here!</a>
+      <a href="signUp.php" class="signInMessage">Need an account? Sign Up here!</a>
     </div>
   </div>
 </body>
