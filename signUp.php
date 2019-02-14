@@ -1,4 +1,16 @@
 <?php require_once "includes/config.php";
+
+function sanitizeFormString($inputText)
+{
+    $inputText = strip_tags($inputText);
+    $inputText = str_replace(" ", "", $inputText);
+}
+
+if (isset($_POST['submitButton'])) {
+    $firstName = $_POST["firstName"];
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
