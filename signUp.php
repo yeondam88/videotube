@@ -1,14 +1,10 @@
 <?php require_once "includes/config.php";
-
-function sanitizeFormString($inputText)
-{
-    $inputText = strip_tags($inputText);
-    $inputText = str_replace(" ", "", $inputText);
-}
+require_once 'includes/classes/FormSanitizer.php';
 
 if (isset($_POST['submitButton'])) {
-    $firstName = $_POST["firstName"];
+    $firstName = FormSanitizer::sanitizeFormString($_POST['firstName']);
 
+    echo $firstName;
 }
 
 ?>
@@ -45,15 +41,11 @@ if (isset($_POST['submitButton'])) {
           <input type="text" name="firstName" placeholder="First Name" autocomplete="off" required>
           <input type="text" name="lastName" placeholder="Last Name" autocomplete="off" required>
           <input type="text" name="username" placeholder="Username" autocomplete="off" required>
-
           <input type="email" name="email" placeholder="Email" autocomplete="off" required>
           <input type="email" name="email2" placeholder="Confirm Email" autocomplete="off" required>
-
           <input type="password" name="password" placeholder="Password" autocomplete="off" required>
           <input type="password" name="password2" placeholder="Confirm Password" autocomplete="off" required>
-
           <input type="submit" name="submitButton" value="SUBMIT">
-
         </form>
       </div>
       <a href="signIn.php" class="signInMessage">Already have an account? Sign in here!</a>
