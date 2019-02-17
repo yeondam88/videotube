@@ -14,6 +14,7 @@ class Account
         $this->validateFirstName($firstName);
         $this->validatelastName($lastName);
         $this->validateUserame($username);
+        $this->validateEmail($email);
     }
 
     private function validateFirstName($firstName)
@@ -43,6 +44,43 @@ class Account
 
         if ($query->rowCount() != 0) {
             array_push($this->errorArray, Constants::$usernameTaken);
+        }
+    }
+
+    private function validateEmail($email, $email2)
+    {
+        if ($email != $email2) {
+            array_push($this->errorArray, Constants::$emailDoNotMatch);
+            return;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            array_push($this->errorArray, Constants::$emailInvalid);
+            return;
+        }
+
+        $query = $this->connection->prepare("SELECT email FROM users WHERE email=:email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+
+        if ($query->rowCount() != 0) {
+            array_push($this->errorArray, Constants::$emailTaken);
+        }
+    }
+
+    private function validatePassword($password, $password2)
+    {
+        if ($password != $password2) {
+            array_push($this->errorArray, Constants::$passwordDoNotMatch);
+            return;
+        }
+
+        $query = $this->connection->prepare("SELECT email FROM users WHERE email=:email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+
+        if ($query->rowCount() != 0) {
+            array_push($this->errorArray, Constants::$emailTaken);
         }
     }
 
