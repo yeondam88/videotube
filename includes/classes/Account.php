@@ -13,9 +13,20 @@ class Account
     {
         $this->validateFirstName($firstName);
         $this->validatelastName($lastName);
-        $this->validateUserame($username);
+        $this->validateUserName($username);
         $this->validateEmail($email, $email2);
         $this->validatePassword($password, $password2);
+
+        if (empty($this->errorArray)) {
+            return $this->insertUserDetails($firstName, $lastName, $username, $email, $password);
+        } else {
+            return false;
+        }
+    }
+
+    public function insertUserDetails($firstName, $lastName, $username, $email, $password)
+    {
+        return true;
     }
 
     private function validateFirstName($firstName)
@@ -81,7 +92,7 @@ class Account
             return;
         }
 
-        if (strlen($passwor) > 30 || strlen($passwor) < 5) {
+        if (strlen($password) > 30 || strlen($password) < 5) {
             array_push($this->errorArray, Constants::$passwordLength);
             return;
         }
