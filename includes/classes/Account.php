@@ -14,7 +14,8 @@ class Account
         $this->validateFirstName($firstName);
         $this->validatelastName($lastName);
         $this->validateUserame($username);
-        $this->validateEmail($email);
+        $this->validateEmail($email, $email2);
+        $this->validatePassword($password, $password2);
     }
 
     private function validateFirstName($firstName)
@@ -75,12 +76,14 @@ class Account
             return;
         }
 
-        $query = $this->connection->prepare("SELECT email FROM users WHERE email=:email");
-        $query->bindParam(':email', $email);
-        $query->execute();
+        if (preg_match("/[^A-Za-z0-9]/", $password)) {
+            array_push($this->errorArray, Constants::$passwordInvalid);
+            return;
+        }
 
-        if ($query->rowCount() != 0) {
-            array_push($this->errorArray, Constants::$emailTaken);
+        if (strlen($passwor) > 30 || strlen($passwor) < 5) {
+            array_push($this->errorArray, Constants::$passwordLength);
+            return;
         }
     }
 
