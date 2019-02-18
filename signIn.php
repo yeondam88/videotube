@@ -7,26 +7,27 @@ require_once 'includes/classes/FormSanitizer.php';
 $account = new Account($connection);
 
 if (isset($_POST['submitButton'])) {
-
-    $username = FormSanitizer::sanitizeFormUsername($_POST['username']);
-    $password = FormSanitizer::sanitizeFormPassword($_POST['password']);
-
-    $wasSuccessful = $account->login($username, $password);
-
-    if ($wasSuccessful) {
-        $_SESSION["userLoggedIn"] = $username;
-        header("Location: index.php");
-    } else {
-        echo 'Failed to login';
-    }
-
+	
+	$username = FormSanitizer::sanitizeFormUsername($_POST['username']);
+	$password = FormSanitizer::sanitizeFormPassword($_POST['password']);
+	
+	$wasSuccessful = $account->login($username, $password);
+	
+	if ($wasSuccessful) {
+		$_SESSION["userLoggedIn"] = $username;
+		header("Location: index.php");
+	}
+	else {
+		echo 'Failed to login';
+	}
+	
 }
 
 function getInputValue($name)
 {
-    if (isset($_POST[$name])) {
-        echo $_POST[$name];
-    }
+	if (isset($_POST[$name])) {
+		echo $_POST[$name];
+	}
 }
 
 ?>
@@ -60,6 +61,8 @@ function getInputValue($name)
       </div>
       <div class="loginForm">
         <form action="signIn.php" method="POST">
+          <?php echo $account->getError(Constants::$userNotFound);
+?>
           <input type="text" name="username" placeholder="Username" value="<?php getInputValue('username');
 ?>" required
             autocomplete=" off">

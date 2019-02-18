@@ -33,10 +33,11 @@ class Account
         $query->bindParam(":password", $password);
         $query->execute();
 
-        if ($query->rowCount() != 0) {
-            array_push($this->errorArray, Constants::$userNotFound);
-        } else {
+        if ($query->rowCount() == 1) {
             return true;
+        } else {
+            array_push($this->errorArray, Constants::$userNotFound);
+            return false;
         }
 
     }
