@@ -218,3 +218,21 @@ a:hover {
   font-weight: 400;
   text-align: center;
 }
+
+/*-----------------------
+    VideoPlayer
+------------------------*/
+.watchLeftColumn {
+  flex: 1;
+}
+
+.watchLeftColumn .videoPlayer {
+  width: 100%;
+}
+
+.suggestions {
+  max-width: 425px;
+  flex-grow: 1;
+  height: 100%;
+  padding-left: 24px;
+}
