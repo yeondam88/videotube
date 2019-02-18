@@ -1,35 +1,45 @@
 <?php
-class VideoInfoSection {
-  
-  private $connection; 
-  private $video;
-  private $userLoggedInObj;
-  
+require_once "includes/classes/VideoInfoControls.php";
+class VideoInfoSection
+{
 
-  public function __construct($connection, $video, $userLoggedInObj) {
-    $this->connection = $connection;
-    $this->video = $video;
-    $this->userLoggedInObj = $userLoggedInObj;  
-  }
+    private $connection;
+    private $video;
+    private $userLoggedInObj;
 
-  public function create() {
-    return $this->createPrimaryInfo() . $this->createSecondaryInfo();
-  }
+    public function __construct($connection, $video, $userLoggedInObj)
+    {
+        $this->connection = $connection;
+        $this->video = $video;
+        $this->userLoggedInObj = $userLoggedInObj;
+    }
 
-  private function createPrimaryInfo() {
-    $title = $this->video->getTitle();
-    $views = $this->video->getViews();
+    public function create()
+    {
+        return $this->createPrimaryInfo() . $this->createSecondaryInfo();
+    }
 
-    return "
-    <div class='videoInfo'>
-      <h1>$title</h1>
-      <div class='bottomSection'>
-        <span class='viewCount'>$views</span>
-      </div>
-    </div>";
-  }
+    private function createPrimaryInfo()
+    {
+        $title = $this->video->getTitle();
+        $views = $this->video->getViews();
 
-  private function createSecondaryInfo() {
+        $videoInfoControls = new VideoInfoControls($this->video, $this->userLoggedInObj);
+        $controls = $videoInfoControls->create();
 
-  }
+        return "
+          <div class='videoInfo'>
+            <h1>$title</h1>
+            <div class='bottomSection'>
+              <span class='viewCount'>$views</span>
+              $controls
+            </div>
+          </div>
+      ";
+    }
+
+    private function createSecondaryInfo()
+    {
+
+    }
 }

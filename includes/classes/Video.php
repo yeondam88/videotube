@@ -11,13 +11,13 @@ class Video
         $this->userLoggedInObj = $userLoggedInObj;
 
         if (is_array($input)) {
-          $this->sqlData = $input;
+            $this->sqlData = $input;
         } else {
-          $query = $this->connection->prepare("SELECT * FROM videos WHERE id=:videoId");
-          $query->bindParam(":videoId", $input);
-          $query->execute();
+            $query = $this->connection->prepare("SELECT * FROM videos WHERE id=:videoId");
+            $query->bindParam(":videoId", $input);
+            $query->execute();
 
-          $this->sqlData = $query->fetch(PDO::FETCH_ASSOC);
+            $this->sqlData = $query->fetch(PDO::FETCH_ASSOC);
         }
 
     }
@@ -72,14 +72,17 @@ class Video
         return $this->sqlData["duration"];
     }
 
-    public function incrementViews() {
-      $query = $this->connection->prepare("UPDATE videos SET views=views+1 WHERE id=:id");
-      $query->bindParam(":id", $videoId);
+    public function incrementViews()
+    {
+        $query = $this->connection->prepare("UPDATE videos SET views=views+1 WHERE id=:id");
+        $query->bindParam(":id", $videoId);
 
-      $videoId = $this->getId();
+        $videoId = $this->getId();
 
-      $query->execute();
-      $this->sqlData["views"] = $this->sqlData["views"] + 1;
+        $query->execute();
+        $this->sqlData["views"] = $this->sqlData["views"] + 1;
     }
 
+    public function getLikes()
+    {}
 }
