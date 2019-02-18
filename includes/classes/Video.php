@@ -84,5 +84,31 @@ class Video
     }
 
     public function getLikes()
-    {}
+    {
+        $query = $this->connection->prepare("SELECT count(*) as 'count' FROM likes WHERE videoId=:videoId");
+        $query->bindParam(":videoId", $videoId);
+
+        $videoId = $this->getId();
+        $query->execute();
+
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        return $data["count"];
+    }
+
+    public function getDislikes()
+    {
+        $query = $this->connection->prepare("SELECT count(*) as 'count' FROM dislikes WHERE videoId=:videoId");
+        $query->bindParam(":videoId", $videoId);
+
+        $videoId = $this->getId();
+        $query->execute();
+
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        return $data["count"];
+    }
+
+    public function like()
+    {
+        return $this->userLoggedInObj->getUsername() . "liked!";
+    }
 }

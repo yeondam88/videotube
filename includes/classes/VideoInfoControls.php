@@ -39,6 +39,12 @@ class VideoInfoControls
 
     private function createDislikeButton()
     {
-        return ButtonProvider::createButton("Dislike", "", "", "");
+        $text = $this->video->getDislikes();
+        $videoId = $this->video->getId();
+        $action = "disLikeVideo(this, $videoId)";
+        $class = "disLikeButton";
+        $imageSrc = "assets/images/icons/thumb-down.png";
+
+        return ButtonProvider::createButton($text, $imageSrc, $action, $class);
     }
 }
