@@ -119,8 +119,7 @@ class Video
         $query->execute();
 
         if ($query->rowCount() > 0) {
-            // User has already liked
-            $query->$this->connection->prepare("DELETE FROM likes WHERE username=:username AND videoId=:videoId");
+            $query = $this->connection->prepare("DELETE FROM likes WHERE username=:username AND videoId=:videoId");
             $query->bindParam(":username", $username);
             $query->bindParam(":videoId", $id);
             $query->execute();
@@ -131,7 +130,7 @@ class Video
             );
             return json_encode($result);
         } else {
-            $query->$this->connection->prepare("DELETE FROM dislikes WHERE username=:username AND videoId=:videoId");
+            $query = $this->connection->prepare("DELETE FROM dislikes WHERE username=:username AND videoId=:videoId");
             $query->bindParam(":username", $username);
             $query->bindParam(":videoId", $id);
             $query->execute();
