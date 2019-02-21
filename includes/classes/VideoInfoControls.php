@@ -32,7 +32,7 @@ class VideoInfoControls
         $class = "likeButton";
         $imageSrc = "assets/images/icons/thumb-up.png";
 
-        if ($this->video->wasLikeBy()) {
+        if ($this->video->wasLikedBy()) {
             $imageSrc = "assets/images/icons/thumb-up-active.png";
         }
 
@@ -46,6 +46,10 @@ class VideoInfoControls
         $action = "disLikeVideo(this, $videoId)";
         $class = "disLikeButton";
         $imageSrc = "assets/images/icons/thumb-down.png";
+
+        if ($this->video->wasDislikedBy()) {
+            $imageSrc = "assets/images/icons/thumb-down-active.png";
+        }
 
         return ButtonProvider::createButton($text, $imageSrc, $action, $class);
     }

@@ -37,15 +37,28 @@ function disLikeVideo(button, videoId) {
   $.post("ajax/disLikeVideo.php", {
     videoId
   }).done(function(data) {
-    console.log(data);
     const disLikeButton = $(button);
-    const likeButton = $(button).siblings(".disLikeButton");
-
+    const likeButton = $(button).siblings(".likeButton");
     disLikeButton.addClass("active");
     likeButton.removeClass("active");
 
     const result = JSON.parse(data);
     updateLikesValue(likeButton.find(".text"), result.likes);
     updateLikesValue(disLikeButton.find(".text"), result.dislikes);
+
+    if (result.dislikes < 0) {
+      disLikeButton.removeClass("active");
+      disLikeButton
+        .find("img:first")
+        .attr("src", "assets/images/icons/thumb-down.png");
+    } else {
+      disLikeButton
+        .find("img:first")
+        .attr("src", "assets/images/icons/thumb-down-active.png");
+    }
+
+    likeButton
+      .find("img:first")
+      .attr("src", "assets/images/icons/thumb-up.png");
   });
 }

@@ -112,7 +112,7 @@ class Video
         $id = $this->getId();
         $username = $this->userLoggedInObj->getUsername();
 
-        if ($this->wasLikeBy()) {
+        if ($this->wasLikedBy()) {
             $query = $this->connection->prepare("DELETE FROM likes WHERE username=:username AND videoId=:videoId");
             $query->bindParam(":username", $username);
             $query->bindParam(":videoId", $id);
@@ -147,14 +147,9 @@ class Video
     public function dislike()
     {
         $id = $this->getId();
-        $query = $this->connection->prepare("SELECT * FROM dislikes WHERE username=:username AND videoId=:videoId");
-        $query->bindParam(":username", $username);
-        $query->bindParam(":videoId", $id);
-
         $username = $this->userLoggedInObj->getUsername();
-        $query->execute();
 
-        if ($query->rowCount() > 0) {
+        if ($this->wasDislikedBy()) {
             $query = $this->connection->prepare("DELETE FROM dislikes WHERE username=:username AND videoId=:videoId");
             $query->bindParam(":username", $username);
             $query->bindParam(":videoId", $id);
@@ -186,10 +181,25 @@ class Video
         }
     }
 
-    public function wasLikeBy()
+    public function wasLikedBy()
     {
 
         $query = $this->connection->prepare("SELECT * FROM likes WHERE username=:username AND videoId=:videoId");
+
+        $query->bindParam(":username", $username);
+        $query->bindParam(":videoId", $id);
+
+        $id = $this->getId();
+        $username = $this->userLoggedInObj->getUsername();
+        $query->execute();
+
+        return $query->rowCount() > 0;
+    }
+
+    public function wasDislikedBy()
+    {
+
+        $query = $this->connection->prepare("SELECT * FROM dislikes WHERE username=:username AND videoId=:videoId");
 
         $query->bindParam(":username", $username);
         $query->bindParam(":videoId", $id);
