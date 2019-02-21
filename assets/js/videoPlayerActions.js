@@ -3,11 +3,11 @@ function likeVideo(button, videoId) {
     videoId
   }).done(function(data) {
     const likeButton = $(button);
-    const disLikeButton = $(button).siblings(".dislikeButton");
+    const disLikeButton = $(button).siblings(".disLikeButton");
     likeButton.addClass("active");
     disLikeButton.removeClass("active");
+
     const result = JSON.parse(data);
-    console.log(result);
     updateLikesValue(likeButton.find(".text"), result.likes);
     updateLikesValue(disLikeButton.find(".text"), result.dislikes);
   });
@@ -18,14 +18,18 @@ function updateLikesValue(element, number) {
   element.text(parseInt(likeCountValue) + parseInt(number));
 }
 
-// function disLikeVideo(button, videoId) {
-//   $.post("ajax/disLikeVideo.php", {
-//     videoId
-//   }).done(function (data) {
-//     const likeButton = $(button);
-//     const disLikeButton = $(button).siblings(".dislikeButton");
+function disLikeVideo(button, videoId) {
+  $.post("ajax/disLikeVideo.php", {
+    videoId
+  }).done(function(data) {
+    const likeButton = $(button);
+    const disLikeButton = $(button).siblings(".disLikeButton");
 
-//     likeButton.removeClass("active");
-//     disLikeButton.addClass("active");
-//   });
-// }
+    likeButton.removeClass("active");
+    disLikeButton.addClass("active");
+
+    const result = JSON.parse(data);
+    updateLikesValue(likeButton.find(".text"), result.likes);
+    updateLikesValue(disLikeButton.find(".text"), result.dislikes);
+  });
+}
