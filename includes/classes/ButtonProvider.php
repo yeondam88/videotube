@@ -62,8 +62,25 @@ class ButtonProvider
       ";
     }
 
-    public static function createSubscribeButton()
+    public static function createSubscriberButton($connection, $userToObj, $userLoggedInObj)
     {
+        $userTo = $userToObj->getUsername();
+        $userLoggedIn = $userLoggedInObj->getUsername();
 
+        $isSubscribedTo = $userLoggedInObj->isSubscribedTo($userTo);
+        $buttonText = $isSubscribedTo ? "SUBSCRIBED" : "SUBSCRIBE";
+        $buttonText .= " " . $userToObj->getSubscriberCount();
+
+        $buttonClass = $isSubscribedTo ? "unsubscribe button" : "subscribe button";
+
+        $action = "subscribe(\"$userTo\", \"$userLoggedIn\", this)";
+
+        $button = ButtonProvider::createButton($buttonText, null, $action, $buttonClass);
+
+        return "
+        <div class='subscribeButtonContainer'>
+          $button
+        </div>
+        ";
     }
 }

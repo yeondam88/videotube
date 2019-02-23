@@ -48,7 +48,8 @@ class VideoInfoSection
         if ($uploadedBy == $this->userLoggedInObj->getUsername()) {
             $actionButton = ButtonProvider::createEditVideoButton($this->video->getId());
         } else {
-            $actionButton = "";
+            $userToObject = new User($this->connection, $uploadedBy);
+            $actionButton = ButtonProvider::createSubscriberButton($this->connection, $userToObject, $this->userLoggedInObj);
         }
 
         return "
