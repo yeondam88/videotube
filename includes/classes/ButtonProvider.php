@@ -22,6 +22,20 @@ class ButtonProvider
         ";
     }
 
+    public static function createHyperlinkButton($text, $imageSrc, $href, $class)
+    {
+        $image = ($imageSrc == null) ? "" : "<img src='$imageSrc'>";
+
+        return "
+        <a href='$href'>
+          <button class='$class'>
+            $image
+            <span class='text'>$text</span>
+          </button>
+        </a>
+        ";
+    }
+
     public static function createUserProfileButton($connection, $username)
     {
         $userObj = new User($connection, $username);
@@ -32,6 +46,19 @@ class ButtonProvider
         <a href='$link'>
           <img src='$profilePic' class='profilePicture' />
         </a>
+      ";
+    }
+
+    public static function createEditVideoButton($videoId)
+    {
+        $href = "editVideo.php?videoId=$videoId";
+
+        $button = ButtonProvider::createHyperlinkButton("EDIT VIDEO", null, $href, "edit button");
+
+        return "
+        <div class='editVideoButtonContainer'>
+          $button
+        </div>
       ";
     }
 
