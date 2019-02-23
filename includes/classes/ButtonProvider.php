@@ -62,4 +62,8 @@ class ButtonProvider
       ";
     }
 
+    public static function createSubscribeButton()
+    {
+
+    }
 }
