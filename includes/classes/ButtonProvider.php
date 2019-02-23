@@ -22,4 +22,17 @@ class ButtonProvider
         ";
     }
 
+    public static function createUserProfileButton($connection, $username)
+    {
+        $userObj = new User($connection, $username);
+        $profilePic = $userObj->getProfilePic();
+        $link = "profile.php?username=$username";
+
+        return "
+        <a href='$link'>
+          <img src='$profilePic' class='profilePicture' />
+        </a>
+      ";
+    }
+
 }
