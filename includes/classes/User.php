@@ -57,7 +57,7 @@ class User
 
     public function isSubscribedTo($userTo)
     {
-        $query = $this->connection->prepare("SELECT * FROM subscribers WHERE userTo=:userTo AND userFrom=:userForm");
+        $query = $this->connection->prepare("SELECT * FROM subscribers WHERE userTo=:userTo AND userFrom=:userFrom");
         $query->bindParam(":userTo", $userTo);
         $query->bindParam(":userFrom", $username);
         $username = $this->getUsername();
