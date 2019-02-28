@@ -1,11 +1,14 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/classes/User.php";
+require_once "../includes/classes/Comment.php";
 
 if (isset($_POST["commentText"]) && isset($_POST["postedBy"]) && isset($_POST["videoId"])) {
 
+    $userLoggedInObj = new User($connection, $_SESSION["userLoggedIn"]);
     $commentText = $_POST["commentText"];
     $postedBy = $_POST["postedBy"];
-    $responseTo = $_POST["responseTo"];
+    $responseTo = isset($_POST["responseTo"]) ? $_POST["responseTo"] : 0;
     $videoId = $_POST["videoId"];
 
     $query = $connection->prepare("INSERT INTO comments(postedBy, videoId, responseTo, body) VALUES(:postedBy, :videoId, :responseTo, :body)");
@@ -16,7 +19,8 @@ if (isset($_POST["commentText"]) && isset($_POST["postedBy"]) && isset($_POST["v
 
     $query->execute();
 
-    //     return new comment html
+    $newComment = new Comment($connection, $connection->lastInsertId(), $userLoggedInObj, $videoId);
+    echo $newComment->create();
 
 } else {
     echo "One or more parameters are not passed into subscribe.php the file.";
