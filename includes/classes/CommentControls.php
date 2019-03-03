@@ -58,7 +58,8 @@ class CommentControls
     private function createLikeButton()
     {
         $text = $this->video->getLikes();
-        $videoId = $this->video->getId();
+        $commentId = $this->comment->getId();
+        $videoId = $this->comment->getId();
         $action = "likeVideo(this, $videoId)";
         $class = "likeButton";
         $imageSrc = "assets/images/icons/thumb-up.png";
