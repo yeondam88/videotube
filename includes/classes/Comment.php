@@ -1,5 +1,6 @@
 <?php
 require_once "ButtonProvider.php";
+require_once "CommentControls.php";
 class Comment
 {
 
@@ -33,6 +34,9 @@ class Comment
         $profileButton = ButtonProvider::createUserProfileButton($this->connection, $postedBy);
         $timespan = '';
 
+        $commentControlsObj = new CommentControls($this->connection, $this, $this->userLoggedInObj);
+        $commentControls = $commentControlsObj->create();
+
         return "
         <div class='itemContainer'>
           <div class='comment'>
@@ -49,8 +53,50 @@ class Comment
               </div>
             </div>
           </div>
+          $commentControls
         </div>
       ";
+    }
+
+    public function getId()
+    {
+        return $this->sqlData["id"];
+    }
+
+    public function getVideoId()
+    {
+        return $this->videoId;
+    }
+
+    public function wasLikedBy()
+    {
+
+        $query = $this->connection->prepare("SELECT * FROM likes WHERE username=:username AND commentId=:commentId");
+
+        $query->bindParam(":username", $username);
+        $query->bindParam(":commentId", $id);
+
+        $id = $this->getId();
+
+        $username = $this->userLoggedInObj->getUsername();
+        $query->execute();
+
+        return $query->rowCount() > 0;
+    }
+
+    public function wasDislikedBy()
+    {
+
+        $query = $this->connection->prepare("SELECT * FROM dislikes WHERE username=:username AND commentId=:commentId");
+
+        $query->bindParam(":username", $username);
+        $query->bindParam(":commentId", $id);
+
+        $id = $this->getId();
+        $username = $this->userLoggedInObj->getUsername();
+        $query->execute();
+
+        return $query->rowCount() > 0;
     }
 
     public function getLikes()
