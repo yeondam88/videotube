@@ -123,6 +123,8 @@ a:hover {
   display: flex;
   flex: 1;
   padding: 10px 30px;
+  background-color: #fafafa;
+  box-sizing: border-box;
 }
 
 /*-----------------------
