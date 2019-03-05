@@ -482,3 +482,10 @@ a:hover {
   width: 30px;
   height: 30px;
 }
+
+.commentSection .comment .timestamp {
+  color: #888;
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 18px;
+}

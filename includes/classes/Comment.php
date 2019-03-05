@@ -29,13 +29,31 @@ class Comment
 
     public function create()
     {
+        $id = $this->sqlData['id'];
+        $videoId = $this->getVideoId();
         $body = $this->sqlData["body"];
         $postedBy = $this->sqlData["postedBy"];
         $profileButton = ButtonProvider::createUserProfileButton($this->connection, $postedBy);
-        $timespan = '';
+        $timespan = $this->time_elapsed_string($this->sqlData["datePosted"]);
 
         $commentControlsObj = new CommentControls($this->connection, $this, $this->userLoggedInObj);
         $commentControls = $commentControlsObj->create();
+
+        $numResponses = $this->getNumberOfReplies();
+
+        if ($numResponses > 0) {
+            $viewRepliesText = "
+            <span class='repliesSection viewReplies' onclick='getReplies($id, this, $videoId)'>
+              View all $numReponses replies
+            </span>
+          ";
+        } else {
+            $viewRepliesText = "
+            <div clas='repliesSection'>
+
+            </div>
+          ";
+        }
 
         return "
         <div class='itemContainer'>
@@ -54,8 +72,52 @@ class Comment
             </div>
           </div>
           $commentControls
+          $viewRepliesText
         </div>
       ";
+    }
+
+    public function getNumberOfReplies()
+    {
+        $query = $this->connection->prepare("SELECT count(*) FROM comments WHERE responseTo=:responseTo");
+        $query->bindParam(":responseTo", $id);
+        $id = $this->sqlData["id"];
+        $query->execute();
+
+        return $query->fetchColumn();
+    }
+
+    private function time_elapsed_string($datetime, $full = false)
+    {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+
+        if (!$full) {
+            $string = array_slice($string, 0, 1);
+        }
+
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
     public function getId()
