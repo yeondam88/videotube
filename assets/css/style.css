@@ -489,3 +489,7 @@ a:hover {
   font-weight: 200;
   line-height: 18px;
 }
+
+.hidden {
+  display: none !important;
+}
