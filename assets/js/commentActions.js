@@ -91,3 +91,14 @@ function updateLikesValue(element, number) {
   const likeCountValue = element.text() || 0;
   element.text(parseInt(likeCountValue) + parseInt(number));
 }
+
+function getReplies(commentId, button, videoId) {
+  $.post("ajax/getCommentReplies.php", { commentId, videoId }).done(function(
+    comments
+  ) {
+    const replies = $("<div>").addClass("repliesSection");
+    replies.append(comments);
+
+    $(button).replaceWith(replies);
+  });
+}
