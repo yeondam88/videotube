@@ -17,7 +17,7 @@ class VideoGrid
         if ($videos == null) {
             $gridItems = $this->generateItems();
         } else {
-            $gridItems = $this->generateItemsFromVideos();
+            $gridItems = $this->generateItemsFromVideos($videos);
         }
 
         $header = "";
@@ -50,9 +50,16 @@ class VideoGrid
         return $elementHTML;
     }
 
-    public function generateItemsFromVideos()
+    public function generateItemsFromVideos($videos)
     {
+        $elementHTML = "";
 
+        foreach ($videos as $video) {
+            $item = new VideoGridItem($video, $this->userLoggedInObj, $this->largeMode);
+            $elementHTML .= $item->create();
+        }
+
+        return $elementHTML;
     }
 
     public function createGridHeader($title, $showFilter)
