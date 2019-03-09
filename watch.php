@@ -5,8 +5,8 @@ require_once "includes/classes/VideoInfoSection.php";
 require_once "includes/classes/CommentSection.php";
 
 if (!isset($_GET['id'])) {
-    echo 'No url passed into page.';
-    exit();
+	echo 'No url passed into page.';
+	exit();
 }
 
 $video = new Video($connection, $_GET['id'], $userLoggedInObj);
@@ -28,6 +28,10 @@ echo $commentSection->create();
 ?>
 </div>
 <div class="suggestions">
+  <?php
+$videoGrid = new VideoGrid($connection, $userLoggedInObj);
+echo $videoGrid->create(null, null, false);
+?>
 </div>
 <?php require_once "includes/footer.php";
 ?>
