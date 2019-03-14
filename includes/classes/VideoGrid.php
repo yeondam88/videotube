@@ -79,7 +79,7 @@ class VideoGrid
             $newUrl = basename($_SERVER["PHP_SELF"]) . "?" . $newQuery;
 
             $filter = "
-                <div class='videoGridHeader'>
+                <div class='right'>
                     <span>Order by:</span>
                     <a href='$newUrl&orderBy=uploadDate'>Upload date</a>
                     <a href='$newUrl&orderBy=views'>Most Viewed</a>
@@ -97,7 +97,8 @@ class VideoGrid
         ";
     }
 
-    public function createLarge($videos, $title, $showFilter) {
+    public function createLarge($videos, $title, $showFilter)
+    {
         $this->gridClass .= " large";
         $this->largeMode = true;
 
