@@ -570,7 +570,7 @@ a:hover {
 
 .videoGridItem .details .title {
   margin: 8px 0;
-  max-height: 32px;
+  /* max-height: 32px; */
   overflow: hidden;
   font-size: 14px;
   font-weight: 500;
