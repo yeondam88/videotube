@@ -6,6 +6,7 @@ require_once "includes/classes/Video.php";
 require_once "includes/classes/VideoGrid.php";
 require_once "includes/classes/VideoGridItem.php";
 require_once "includes/classes/SubscriptionProvider.php";
+require_once "includes/classes/NavigationMenuProvider.php";
 
 $usernameLoggedIn = User::isLoggedIn() ? $_SESSION["userLoggedIn"] : "";
 $userLoggedInObj = new User($connection, $usernameLoggedIn);
@@ -58,6 +59,10 @@ $userLoggedInObj = new User($connection, $usernameLoggedIn);
       </div>
     </div>
     <div id="sideNavContainer" style="display: none;">
+      <?php
+$navigationProvider = new NavigationMenuProvider($connection, $userLoggedInObj);
+echo $navigationProvider->create();
+?>
     </div>
     <div id="mainSectionContainer">
       <div id="mainContentContainer">
