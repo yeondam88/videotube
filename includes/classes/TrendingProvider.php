@@ -14,7 +14,7 @@ class TrendingProvider
     {
         $videos = array();
 
-        $query = $this->prepare("SELECT * FROM videos WHERE uploadDate >= now() - INTERVAL 7 DAY ORDER BY views DESC LIMIT 15");
+        $query = $this->connection->prepare("SELECT * FROM videos WHERE uploadDate >= now() - INTERVAL 7 DAY ORDER BY views DESC LIMIT 15");
         $query->execute();
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
