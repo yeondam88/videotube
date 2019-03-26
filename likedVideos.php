@@ -1,20 +1,21 @@
 <?php
 require_once "includes/header.php";
+require_once "includes/classes/LikedVideosProvider.php";
 
 if (!User::isLoggedIn()) {
     header("Location: signin.php");
 }
 
-$subscrptionProvider = new SubscriptionProvider($connection, $userLoggedInObj);
+$likedVideosProvider = new LikedVideosProvider($connection, $userLoggedInObj);
 
-$videos = $subscrptionProvider->getVideos();
+$videos = $likedVideosProvider->getVideos();
 
 $videoGrid = new VideoGrid($connection, $userLoggedInObj);
 ?>
 <div class="largeVideoGridContainer">
   <?php
 if (sizeof($videos) > 0) {
-    echo $videoGrid->createLarge($videos, "New from your subscriptions", false);
+    echo $videoGrid->createLarge($videos, "Videos that you liked!", false);
 } else {
     echo "No videos to show";
 }
