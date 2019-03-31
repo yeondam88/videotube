@@ -6,4 +6,4 @@ Teckstacks
 
 
 TODO:
-- Clone it with NodeJS or Python for backend..
+- Try set backend with Laravel..
